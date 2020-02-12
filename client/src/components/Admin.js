@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-//import './App.css';
+import React  , {Component} from 'react';
+import { BrowserRouter as Router,Switch, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Web3 from 'web3';
+import Admin1 from './Admin1.js';
 import freelancer from '../abis/freelancer.json';
-import Main from './main.js';
-import Bid from './bid.js';
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+class Admin extends Component{
 
-class Home extends Component {
-
-async componentWillMount(){
-   document.title = "Blocklancer"
+  async componentWillMount(){
   await this.loadweb3()
   console.log(window.web3)
   await this.loadBlockchainData()
 }
+
 
 async loadweb3(){
     if (window.ethereum) {
@@ -28,7 +26,6 @@ async loadweb3(){
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
   }
-
 
   async loadBlockchainData(){
     const web3 = window.web3
@@ -47,49 +44,56 @@ async loadweb3(){
         props:[...this.state.props,property]
       })      
      }
-
-
      this.setState({loading:false})
-     console.log(this.state.props)
+     //console.log(this.state.bids)
       }
     else{
     window.alert("Contract not deployed to the detected network");
   }
 }
 
-  constructor (props){
+
+    constructor (props){
     super(props)
     this.state ={
       account: '',
-      propertyCount :0,
-      props :[],
+      name:'',
+      des:'',
+      type:'',
+      id:0,
       owner:'',
+      purchased : true,
+      props:[],
       loading : true
     }
-  this.createProperty= this.createProperty.bind(this)
-  
-  //this.purchaseProduct = this.purchaseProduct.bind(this)
+   this.createProperty = this.createProperty.bind(this);
   }
 
 createProperty(name,des,owner,type) {
     this.setState({ loading: true })
+    //let id1=this.props.params.id
+       //this.state.cid =checkid
     this.state.Freelancer.methods.createProperty(name,des,owner,type).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
+
   }
-  
-  render() {
-    return (
+  render()
+  {
+    return(
     <div class ="container">
       <div class="row">
-        <Main props ={this.state.props} 
+      
+        <Admin1 props ={this.state.props} 
         createProperty={this.createProperty}
+
         />
+        
         </div>
     </div>
     );
   }
 }
 
-export default Home;
+export default Admin;

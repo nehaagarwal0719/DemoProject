@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import freelancer from '../abis/freelancer.json';
 import jwt_decode from 'jwt-decode'
 import Web3 from 'web3';
-import Profile1 from './Profile1'
-import Profile2 from './Profile2'
+import Profile1 from './Profile1';
+import Profile2 from './Profile2';
+import Admin from './Admin'; 
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class Profile extends Component {
 
@@ -36,12 +38,12 @@ async loadBlockchainData(){
      const Freelancer = new web3.eth.Contract(freelancer.abi,networkData.address)
      this.setState({Freelancer})
 
-     const workCount = await Freelancer.methods.workCount().call()
-     this.setState({workCount})
-     for(var i=1;i<=workCount;i++){
-      const work = await Freelancer.methods.works(i).call()
+     const propertyCount = await Freelancer.methods.propertyCount().call()
+     this.setState({propertyCount})
+     for(var i=1;i<=propertyCount;i++){
+      const property = await Freelancer.methods.props(i).call()
       this.setState({
-        works:[...this.state.works,work]
+        props:[...this.state.props,property]
       })      
      }
 
@@ -55,7 +57,7 @@ async loadBlockchainData(){
      }
 
      this.setState({loading:false})
-     console.log(this.state.works)
+     console.log(this.state.props)
       }
     else{
     window.alert("Contract not deployed to the detected network");
@@ -64,15 +66,17 @@ async loadBlockchainData(){
   constructor() {
     super()
     this.state = {
+      account:'',
       fname: '',
       lname: '',
       email: '',
       errors: {},
-      works:[],
-       workCount :0,
+      props:[],
+       propertyCount :0,
         bidCount:0, 
       bids:[]
     }
+     this.forSale = this.forSale.bind(this)
   }
 
   componentDidMount() {
@@ -85,8 +89,20 @@ async loadBlockchainData(){
     })
   }
 
+   forSale(id) {
+    this.setState({ loading: true })
+    this.state.Freelancer.methods.purchaseBid(id).send({ from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
   render() {
     return (
+      <Router>
+      <div>
+      <Route path="/admin"  component={Admin}/>
+      </div>
       <div className="container">
         <div>
           <div className="col-sm-8 mx-auto">
@@ -110,13 +126,20 @@ async loadBlockchainData(){
                 <td>Address</td>
                 <td>{this.state.account}</td>
               </tr>
+              {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?<tr>
+               <button><Link to={'/admin/'}>Add Property</Link></button>   
+              </tr> : null }
+
+           
+
             </tbody>
           </table>
         </div>
-        <Profile1 works ={this.state.works} /> 
+        <Profile1 props ={this.state.props}
+         forSale={this.forSale} /> 
         <Profile2 bids ={this.state.bids} />
       </div>
-
+      </Router>
     )
   }
 }

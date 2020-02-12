@@ -1,20 +1,18 @@
-import React, { Component } from 'react';
-//import './App.css';
+import React  , {Component} from 'react';
+import { BrowserRouter as Router,Switch, Route} from "react-router-dom";
+import {Link} from "react-router-dom";
 import Web3 from 'web3';
+import Admin1 from './Admin1.js';
 import freelancer from '../abis/freelancer.json';
-import Main from './main.js';
-import Bid from './bid.js';
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+class owner extends Component{
 
-class Home extends Component {
-
-async componentWillMount(){
-   document.title = "Blocklancer"
+  async componentWillMount(){
   await this.loadweb3()
   console.log(window.web3)
   await this.loadBlockchainData()
 }
+
 
 async loadweb3(){
     if (window.ethereum) {
@@ -29,7 +27,6 @@ async loadweb3(){
     }
   }
 
-
   async loadBlockchainData(){
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
@@ -39,57 +36,49 @@ async loadweb3(){
     if(networkData){ 
      const Freelancer = new web3.eth.Contract(freelancer.abi,networkData.address)
      this.setState({Freelancer})
-     const propertyCount = await Freelancer.methods.propertyCount().call()
-     this.setState({propertyCount})
-     for(var i=1;i<=propertyCount;i++){
-      const property = await Freelancer.methods.props(i).call()
-      this.setState({
-        props:[...this.state.props,property]
-      })      
-     }
-
-
      this.setState({loading:false})
-     console.log(this.state.props)
       }
     else{
     window.alert("Contract not deployed to the detected network");
   }
 }
 
-  constructor (props){
+
+    constructor (props){
     super(props)
     this.state ={
       account: '',
-      propertyCount :0,
-      props :[],
+      id:0,
+      status:'',
       owner:'',
+      purchased : true,
       loading : true
     }
-  this.createProperty= this.createProperty.bind(this)
-  
-  //this.purchaseProduct = this.purchaseProduct.bind(this)
+   this.makeAvailable = this.makeAvailable.bind(this);
   }
 
-createProperty(name,des,owner,type) {
+makeAvailable(id,status) {
     this.setState({ loading: true })
-    this.state.Freelancer.methods.createProperty(name,des,owner,type).send({ from: this.state.account })
+    this.state.Freelancer.methods.createProperty(id,status).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
+
   }
-  
-  render() {
-    return (
+  render()
+  {
+    return(
     <div class ="container">
       <div class="row">
-        <Main props ={this.state.props} 
-        createProperty={this.createProperty}
+      
+        <Owner1
+        makeAvailable={this.makeAvailable}
         />
+        
         </div>
     </div>
     );
   }
 }
 
-export default Home;
+export default owner;

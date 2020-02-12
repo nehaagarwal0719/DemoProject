@@ -16,10 +16,9 @@ class BidMain extends Component{
                 const checkid =this.props.cidd
                 const name = this.bidderName.value
                 const message  = this.bidderMessage.value
-                const time = window.web3.utils.hexToNumber(this.bidderTime.value)
                 const price = window.web3.utils.toWei(this.bidderPrice.value.toString(), 'Ether')
   
-                  this.props.createBid(checkid,name,message,time,price)
+                  this.props.createBid(checkid,name,message,price)
              }}>
                   <div className="form-group mr-sm-2">
                      <input
@@ -35,13 +34,6 @@ class BidMain extends Component{
                         ref={(input) => { this.bidderMessage = input }}
                         className="form-control"
                         placeholder="Description"
-                        required />
-                        <input
-                        id="bidderTime"
-                        type="number"
-                        ref={(input) => { this.bidderTime = input }}
-                        className="form-control"
-                        placeholder="Time in days"
                         required />
                         <input
                         id="bidderPrice"
@@ -63,7 +55,6 @@ class BidMain extends Component{
                    <th scope="col">Name</th>
                    <th scope="col">Message</th>
                    <th scope="col">Price</th>
-                   <th scope="col">Time(days)</th>
                    <th scope="col">Bidder</th>
                    </tr>
                 </thead>
@@ -80,7 +71,6 @@ class BidMain extends Component{
                         <td>{bid.name}</td>
                         <td>{bid.message}</td>
                         <td>{window.web3.utils.fromWei(bid.price.toString(),'Ether')}</td>
-                        <td>{window.web3.utils.hexToNumber(bid.time)}</td>
                         <td>{bid.bidder}</td>
                         <td> <button
                              name={bid.bid_id}

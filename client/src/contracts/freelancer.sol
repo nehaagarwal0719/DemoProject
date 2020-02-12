@@ -1,39 +1,51 @@
 pragma solidity ^0.5.1;
 contract freelancer{
 
-    struct work{
+   // enum Status {NOT_AVAILABLE,FOR_SELL,FOR_RENT}
+
+    struct property{
         uint id;
         string name;
         string des;
+        string type1;
         address payable owner;
+        string status;
         bool purchased;
     }
-
+    
     struct bid{
         uint checkid;
         uint bid_id;
         string name;
         string message;
-        uint time;
         uint price;
         address payable bidder;
     }
 
+    struct ledger{
+        uint id;
+        address[] payable add;
+    }
+
     
-    uint public workCount=0;
+    uint public propertyCount=0;
     uint public bidCount=0;
     uint public linkCount=0;
-    
-    mapping (uint=>work) public works;
+    uint public ledgerCount=0;
+
+    mapping (uint=>property) public props;
     mapping (uint=>bid) public bids;
     mapping (uint=>bid) public links;
+    mapping (uint=>ledger) public ledgers;
+     
     
-    
-    event workCreated(
+    event propertyCreated(
         uint id,
         string name,
         string des,
+        string type1,
         address payable owner,
+        string status,
         bool purchased
     );
 
@@ -42,7 +54,6 @@ contract freelancer{
         uint bid_id,
         string name,
         string message,
-        uint time,
         uint price,
         address payable bidder
 
@@ -51,23 +62,49 @@ contract freelancer{
         uint bid_id,
         string name,
         string message,
-        uint time,
         uint price,
         address payable bidder
         );
+
+    event Sale(
+        uint id,
+        string name,
+        string des,
+        string type1,
+        address payable owner,
+        string status,
+        bool purchased
+
+    );
     
-    function createWork(string memory _name,string memory _des)public{
-        works[workCount]=work(workCount,_name,_des,msg.sender,false);
-        workCount++;
-        emit workCreated(workCount,_name,_des,msg.sender,false);
+  //  address public constant owner= '0xc55961b8ead792670e5393418950be7597d521ed';
+
+    function createProperty(string memory _name,string memory _des,address payable _owner,string memory _type)public{
+        //require(msg.sender == owner);
+        props[propertyCount]=property(propertyCount,_name,_des,_type,_owner,"NOT AVAILABLE",false);
+        propertyCount++;
+        ledgers[ledgerCount]=ledger({
+            id:ledgerCount,
+            add:ledgerCount});
+        
+        emit propertyCreated(propertyCount,_name,_des,_type,_owner,"NOT AVAILABLE",false);
     }
 
-    function createBid( uint _checkid,string memory _name, string memory _message, uint _time, uint _price) public{
-        bids[bidCount]=bid(_checkid,bidCount,_name,_message,_time,_price, msg.sender);
+    function forSale(uint _id)public payable{
+       // require(props[_id].owner==msg.sender);
+        property memory _property = props[_id];
+        _property.status="SALE";
+        emit Sale(propertyCount,_property.name,_property.des,_property.type1,_property.owner,_property.status,_property.purchased);
+    }
+
+
+
+    function createBid( uint _checkid,string memory _name, string memory _message, uint _price) public{
+        bids[bidCount]=bid(_checkid,bidCount,_name,_message,_price, msg.sender);
         bidCount++;
         //links[_checkid]=bid(bidCount,_name,_message,_time,_price, msg.sender);
         //linkCount++;
-        emit bidCreated(_checkid,bidCount,_name,_message,_time,_price, msg.sender);
+        emit bidCreated(_checkid,bidCount,_name,_message,_price, msg.sender);
         
     }
 
@@ -81,11 +118,11 @@ contract freelancer{
         // enough ether
         require (msg.value >= _bid.price);
         
-        //fetch the work
-        uint  work_id =_bid.checkid;
-        work memory _work = works[work_id];
+         //fetch the work
+         uint  property_id =_bid.checkid;
+         property memory _property = props[property_id];
          //work is not purchased
-         require (!_work.purchased);
+         require (!_property.purchased);
 
          //seller is not buyer
          require (_seller!=msg.sender);
@@ -94,15 +131,15 @@ contract freelancer{
         //transfer ownership to the buyer
         _bid.bidder= msg.sender;
          //mark as purchased
-         _work.purchased = true;
+        _property.purchased = true;
          //update the product
          bids[_id]=_bid;
-         works[work_id]=_work;
+         props[property_id]=_property;
          //pay the seller through ether
          address(_seller).transfer(msg.value);
          //trigger an event
 
-         emit bidPurchased(bidCount,_bid.name,_bid.message,_bid.time,_bid.price, msg.sender);
+         emit bidPurchased(bidCount,_bid.name,_bid.message,_bid.price, msg.sender);
 
     }    
 

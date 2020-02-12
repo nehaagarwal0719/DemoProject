@@ -67,11 +67,11 @@ async loadweb3(){
    this.createBid = this.createBid.bind(this);
    this.purchaseBid = this.purchaseBid.bind(this)
   }
-createBid(checkid,name,message,time,price) {
+createBid(checkid,name,message,price) {
     this.setState({ loading: true })
     //let id1=this.props.params.id
        //this.state.cid =checkid
-    this.state.Freelancer.methods.createBid(checkid,name,message,time,price).send({ from: this.state.account })
+    this.state.Freelancer.methods.createBid(checkid,name,message,price).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
