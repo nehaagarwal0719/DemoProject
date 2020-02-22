@@ -38,6 +38,7 @@ async loadweb3(){
     if(networkData){ 
      const Freelancer = new web3.eth.Contract(freelancer.abi,networkData.address)
      this.setState({Freelancer})
+
      const bidCount = await Freelancer.methods.bidCount().call()
      this.setState({bidCount})
      for(var i=1;i<=bidCount;i++){
@@ -46,6 +47,17 @@ async loadweb3(){
         bids:[...this.state.bids,bid]
       })      
      }
+
+
+     const propertyCount = await Freelancer.methods.propertyCount().call()
+     this.setState({propertyCount})
+     for(var i=1;i<=propertyCount;i++){
+      const property = await Freelancer.methods.props(i).call()
+      this.setState({
+        props:[...this.state.props,property]
+      })   
+    }
+
      this.setState({loading:false})
      //console.log(this.state.bids)
       }
@@ -62,6 +74,8 @@ async loadweb3(){
       account: '',
       bidCount:0, 
       bids:[],
+      props:[],
+      propertyCount:0,
       loading : true
     }
    this.createBid = this.createBid.bind(this);
@@ -92,10 +106,11 @@ createBid(checkid,name,message,price) {
     return(
   <div class ="container">
       <div class="row">
-      
         <BidMain bids ={this.state.bids} 
         createBid={this.createBid}
         purchaseBid={this.purchaseBid}
+        props ={this.state.props}
+         forApprove={this.forApprove} 
          const cidd= {this.props.match.params.cid}
         />
         

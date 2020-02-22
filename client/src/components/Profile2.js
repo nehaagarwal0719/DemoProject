@@ -43,6 +43,7 @@ async loadBlockchainData(){
                     return(
                       <tr key={key}>
                         <td>{bid.checkid}</td>
+  
                       </tr>
                      );
                  }

@@ -69,11 +69,11 @@ async loadweb3(){
    this.createProperty = this.createProperty.bind(this);
   }
 
-createProperty(name,des,owner,type) {
+createProperty(bno,name,des,owner,type) {
     this.setState({ loading: true })
     //let id1=this.props.params.id
        //this.state.cid =checkid
-    this.state.Freelancer.methods.createProperty(name,des,owner,type).send({ from: this.state.account })
+    this.state.Freelancer.methods.createProperty(bno,name,des,owner,type).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })

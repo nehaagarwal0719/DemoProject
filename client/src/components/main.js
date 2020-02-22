@@ -4,6 +4,15 @@ import {Link} from "react-router-dom";
 import Bid from './bid.js';
 
 class Main extends Component{
+
+  constructor (props){
+    super(props) 
+    this.state ={
+      account:'',
+      loading : true
+    }
+  }
+
   render()
   {
     return(
@@ -24,6 +33,7 @@ class Main extends Component{
                   <th scope="col">Status</th>
                </tr>             
 
+
                </thead>
                <tbody id="propertyList">
                   {this.props.props.map((property,key)=>{
@@ -37,16 +47,20 @@ class Main extends Component{
                         <td>{property.owner}</td>
                         <td>{property.type1}</td>
                         <td>{property.status}</td>
-                        <td>
-                        { !property.purchased
-                          ? <button>
+                        <td><button>
+                           <Link to={'/info/'+property.id} >
+                          MORE INFO
+                          </Link>
+                         </button></td>
+                        {property.status == "SALE" || property.status == "RENT" 
+                          ? <td><button>
                            <Link to={'/bid/'+property.id} >
                           Click to bid 
                           </Link>
-                         </button>
+                         </button></td>
                          :null
                        }
-                        </td> 
+                      
                       </tr>
                      );
                    })}

@@ -11,6 +11,7 @@ class Landing extends Component {
   render() {
     const loginRegLink = (
       <ul className="navbar-nav">
+      <li>Shelter Hub</li>
         <li className="nav-item">
           <Link to="/login" className="nav-link">
             Login

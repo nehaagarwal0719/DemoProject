@@ -47,7 +47,7 @@ async loadBlockchainData(){
       })      
      }
 
-      const bidCount = await Freelancer.methods.bidCount().call()
+     const bidCount = await Freelancer.methods.bidCount().call()
      this.setState({bidCount})
      for(var i=1;i<=bidCount;i++){
       const bid = await Freelancer.methods.bids(i).call()
@@ -77,6 +77,8 @@ async loadBlockchainData(){
       bids:[]
     }
      this.forSale = this.forSale.bind(this)
+     this.forApprove = this.forApprove.bind(this)
+     this.forRent = this.forRent.bind(this)
   }
 
   componentDidMount() {
@@ -90,8 +92,25 @@ async loadBlockchainData(){
   }
 
    forSale(id) {
+    console.log("yes")
     this.setState({ loading: true })
-    this.state.Freelancer.methods.purchaseBid(id).send({ from: this.state.account})
+    this.state.Freelancer.methods.forSale(id).send({ from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
+  forRent(id) {
+    this.setState({ loading: true })
+    this.state.Freelancer.methods.forRent(id).send({ from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
+ forApprove(id) {
+    this.setState({ loading: true })
+    this.state.Freelancer.methods.forApprove(id).send({ from: this.state.account})
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
@@ -136,7 +155,10 @@ async loadBlockchainData(){
           </table>
         </div>
         <Profile1 props ={this.state.props}
-         forSale={this.forSale} /> 
+         forSale={this.forSale}
+         forRent={this.forRent}
+          forApprove={this.forApprove} 
+           /> 
         <Profile2 bids ={this.state.bids} />
       </div>
       </Router>

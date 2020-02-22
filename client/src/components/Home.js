@@ -27,6 +27,12 @@ async loadweb3(){
     else {
       window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
     }
+    const web3 = window.web3
+    let latestBlock = await web3.eth.getBlock('latest')
+    console.log('latestBlock',latestBlock)
+    this.setState({
+      blockNumber:latestBlock.number
+    })
   }
 
 
@@ -64,7 +70,9 @@ async loadweb3(){
       propertyCount :0,
       props :[],
       owner:'',
-      loading : true
+      loading : true,
+      blockNumber:0,
+      latestBlocks:[]
     }
   this.createProperty= this.createProperty.bind(this)
   
@@ -83,9 +91,11 @@ createProperty(name,des,owner,type) {
     return (
     <div class ="container">
       <div class="row">
+     {this.state.blockNumber}
         <Main props ={this.state.props} 
         createProperty={this.createProperty}
         />
+     
         </div>
     </div>
     );

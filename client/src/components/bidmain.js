@@ -1,53 +1,85 @@
 import React , {Component} from 'react';
 import Bid from './bid.js';
-
+import freelancer from '../abis/freelancer.json';
+import Web3 from 'web3';
 
 class BidMain extends Component{
+
+   async componentWillMount(){
+  await this.loadweb3()
+  console.log(window.web3)
+  await this.loadBlockchainData()
+}
+
+
+
+ async loadweb3(){
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum)
+      await window.ethereum.enable()
+    }
+    else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider)
+    }
+    else {
+      window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
+    }
+  }
+async loadBlockchainData(){
+    const web3 = window.web3
+    const accounts = await web3.eth.getAccounts()
+    this.setState({account: accounts[0]})
+}
+  constructor (props){
+    super(props)
+    this.state ={
+      account: '',
+      loading : true
+    }
+  }
+
 
   render()
   {
       
     return(
-
       <div id="content">
-      
-            <form onSubmit={(event) => {
+         <form onSubmit={(event) => {
                 event.preventDefault()
                 const checkid =this.props.cidd
                 const name = this.bidderName.value
                 const message  = this.bidderMessage.value
                 const price = window.web3.utils.toWei(this.bidderPrice.value.toString(), 'Ether')
-  
-                  this.props.createBid(checkid,name,message,price)
-             }}>
-                  <div className="form-group mr-sm-2">
-                     <input
-                        id="bidderName"
-                        type="text"
-                        ref={(input) => { this.bidderName = input }}
-                        className="form-control"
-                        placeholder="Name"
-                        required />
-                        <input
-                        id="bidderDes"
-                        type="text"
-                        ref={(input) => { this.bidderMessage = input }}
-                        className="form-control"
-                        placeholder="Description"
-                        required />
-                        <input
-                        id="bidderPrice"
-                        type="text"
-                        ref={(input) => { this.bidderPrice = input }}
-                        className="form-control"
-                        placeholder="Price"
-                        required />
+                this.props.createBid(checkid,name,message,price)
+          }}>
+                <div className="form-group mr-sm-2">
+                           <input
+                              id="bidderName"
+                              type="text"
+                              ref={(input) => { this.bidderName = input }}
+                              className="form-control"
+                              placeholder="Name"
+                              required />
+                              <input
+                              id="bidderDes"
+                              type="text"
+                              ref={(input) => { this.bidderMessage = input }}
+                              className="form-control"
+                              placeholder="Description"
+                              required />
+                              <input
+                              id="bidderPrice"
+                              type="text"
+                              ref={(input) => { this.bidderPrice = input }}
+                              className="form-control"
+                              placeholder="Price"
+                              required />
                   </div>          
                   <button type="submit" className="btn btn-primary">Bid</button>
-            </form>
-            <p>&nbsp;</p>
-            <h2>Bid List</h2>
-            <table className="table">
+          </form>
+          <p>&nbsp;</p>
+          <h2>Bid List</h2>
+          <table className="table">
                 <thead>
                   <tr>    
                   <th scope="col">#</th>
@@ -62,7 +94,7 @@ class BidMain extends Component{
             <tbody id="bidList">
         
                   {this.props.bids.map((bid,key1)=>{
-
+        
                   if(this.props.cidd==bid.checkid.toString()){
                     return(
                       <tr key={key1}>
@@ -72,6 +104,7 @@ class BidMain extends Component{
                         <td>{bid.message}</td>
                         <td>{window.web3.utils.fromWei(bid.price.toString(),'Ether')}</td>
                         <td>{bid.bidder}</td>
+                        {bid.status==true?
                         <td> <button
                              name={bid.bid_id}
                              value={bid.price}
@@ -82,17 +115,16 @@ class BidMain extends Component{
                               }}>
                              Buy
                              </button>
-                       </td>
+                       </td>:null}
                       </tr>
 
                      );
                   }
                    })}
                </tbody>
-
-          </table>
-         
+          </table>        
          </div>
+    
     );
   }
 }
