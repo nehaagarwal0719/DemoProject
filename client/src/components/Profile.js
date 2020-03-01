@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode'
 import Web3 from 'web3';
 import Profile1 from './Profile1';
 import Profile2 from './Profile2';
-import Admin from './Admin'; 
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class Profile extends Component {
@@ -72,13 +71,14 @@ async loadBlockchainData(){
       email: '',
       errors: {},
       props:[],
-       propertyCount :0,
-        bidCount:0, 
+      propertyCount :0,
+      bidCount:0, 
       bids:[]
     }
      this.forSale = this.forSale.bind(this)
      this.forApprove = this.forApprove.bind(this)
      this.forRent = this.forRent.bind(this)
+    this.createProperty = this.createProperty.bind(this);
   }
 
   componentDidMount() {
@@ -116,52 +116,28 @@ async loadBlockchainData(){
     })
   }
 
+ createProperty(bno,name,des,owner,type,location) {
+    this.setState({ loading: true })
+    //let id1=this.props.params.id
+       //this.state.cid =checkid
+    this.state.Freelancer.methods.createProperty(bno,name,des,owner,type,location).send({ from: this.state.account })
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+
+  }
   render() {
     return (
-      <Router>
       <div>
-      <Route path="/admin"  component={Admin}/>
-      </div>
-      <div className="container">
-        <div>
-          <div className="col-sm-8 mx-auto">
-            <h1 className="text-center">PROFILE</h1>
-          </div>
-          <table className="table col-md-6 mx-auto">
-            <tbody>
-              <tr>
-                <td>First Name</td>
-                <td>{this.state.fname}</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>{this.state.lname}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{this.state.email}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{this.state.account}</td>
-              </tr>
-              {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?<tr>
-               <button><Link to={'/admin/'}>Add Property</Link></button>   
-              </tr> : null }
-
-           
-
-            </tbody>
-          </table>
-        </div>
-        <Profile1 props ={this.state.props}
+          <Profile1 props ={this.state.props}
          forSale={this.forSale}
          forRent={this.forRent}
+          createProperty={this.createProperty}
+          bids ={this.state.bids}
           forApprove={this.forApprove} 
            /> 
-        <Profile2 bids ={this.state.bids} />
-      </div>
-      </Router>
+        
+      </div>  
     )
   }
 }

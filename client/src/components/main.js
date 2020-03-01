@@ -2,6 +2,7 @@ import React  , {Component} from 'react';
 import { BrowserRouter as Router,Switch, Route} from "react-router-dom";
 import {Link} from "react-router-dom";
 import Bid from './bid.js';
+import Info from './info.js';
 
 class Main extends Component{
 
@@ -19,6 +20,7 @@ class Main extends Component{
       <Router>
       <div>
       <Route path="/bid"  component={Bid}/>
+       <Route path="/info"  component={Info}/>
       </div>
        <div id="content">
             <h2>Property List</h2>
@@ -72,5 +74,6 @@ class Main extends Component{
     );
   }
 }
+
 
 export default Main;

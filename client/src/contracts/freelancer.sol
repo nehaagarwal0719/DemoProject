@@ -10,8 +10,11 @@ contract freelancer{
         string des;
         string type1;
         address payable owner;
+        string location;
+        uint256 time;
         string status;
         bool purchased;
+
     }
     
     struct bid{
@@ -27,6 +30,7 @@ contract freelancer{
         uint id;
         uint p_id;
         address payable new_owner;
+        uint256 time;
     }
 
     
@@ -48,6 +52,8 @@ contract freelancer{
         string des,
         string type1,
         address payable owner,
+        string location,
+        uint256 time,
         string status,
         bool purchased
     );
@@ -105,28 +111,28 @@ contract freelancer{
       event ledgerCreated(
         uint id,
         uint p_id,
-        address payable new_owner
+        address payable new_owner,
+        uint256 time
     );
-  //  address public constant owner= '0xc55961b8ead792670e5393418950be7597d521ed';
+  
 
-    function createProperty(uint _bno,string memory _name,string memory _des,address payable _owner,string memory _type)public{
-        //require(msg.sender == owner);
-        props[propertyCount]=property(propertyCount,_bno,_name,_des,_type,_owner,"NOT AVAILABLE",false);
-        propertyCount++;
-         ledgers[ledgerCount]=ledger(ledgerCount,propertyCount,_owner);
-        ledgerCount++;
-         emit ledgerCreated(ledgerCount,propertyCount,_owner);
-        emit propertyCreated(propertyCount,_bno,_name,_des,_type,_owner,"NOT AVAILABLE",false);
+    function createProperty(uint _bno,string memory _name,string memory _des,address payable _owner,string memory _type, string memory _location)public{
+        
+        props[propertyCount]=property(propertyCount,_bno,_name,_des,_type,_owner,_location, now,"NOT AVAILABLE",false);
+         ledgers[ledgerCount]=ledger(ledgerCount,propertyCount,_owner,now);
+        ledgerCount++; propertyCount++;
+         emit ledgerCreated(ledgerCount,propertyCount,_owner,now);
+        emit propertyCreated(propertyCount,_bno,_name,_des,_type,_owner,_location,now,"NOT AVAILABLE",false);
     }
 
     function forSale(uint _id)public payable{
-       // require(props[_id].owner==msg.sender);
+       require(props[_id].owner==msg.sender);
         props[_id].status="SALE";
         emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
     }
 
     function forRent(uint _id)public payable{
-       // require(props[_id].owner==msg.sender);
+        require(props[_id].owner==msg.sender);
         props[_id].status="RENT";
         emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
     }
@@ -167,7 +173,7 @@ contract freelancer{
          require (!_property.purchased);
 
          //seller is not buyer
-         //require (_seller!=msg.sender);
+         require (_seller!=msg.sender);
          
          
         //transfer ownership to the buyer
@@ -181,9 +187,9 @@ contract freelancer{
          //pay the seller through ether
          address(_seller).transfer(msg.value);
          //trigger an event
-         ledgers[ledgerCount]=ledger(ledgerCount,property_id,_seller);
+         ledgers[ledgerCount]=ledger(ledgerCount,property_id,_buyer,now);
          ledgerCount ++;
-         emit ledgerCreated(ledgerCount,property_id,_seller);
+         emit ledgerCreated(ledgerCount,property_id,_seller,now);
          emit bidPurchased(bidCount,_bid.name,_bid.message,_bid.price, msg.sender);
 
     }    

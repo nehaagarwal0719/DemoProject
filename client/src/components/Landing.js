@@ -11,7 +11,6 @@ class Landing extends Component {
       <div className="intro-text">
         <div className="intro-lead-in">Welcome!</div>
         <div className="intro-heading text-uppercase">A Better Home Search</div>
-        <a className="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Get Started</a>
       </div>
     </div>
   </header>

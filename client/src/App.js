@@ -9,6 +9,8 @@ import Profile from './components/Profile'
 import Main from './components/main.js';
 import Bid from './components/bid.js';
 import Home from './components/Home.js';
+import Choose from './components/choose.js';
+import Info from './components/info.js';
 
 class App extends Component {
   render() {
@@ -22,7 +24,9 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile}  />
             <Route exact path="/work" component={Home} />
+            <Route exact path="/choose" component={Choose} />
             <Route exact path="/bid/:cid" component={Bid} />
+            <Route exact path="/info/:lid"  component={Info}/>
           </div>
         </div>
       </Router>

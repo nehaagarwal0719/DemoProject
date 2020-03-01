@@ -1,7 +1,7 @@
 import React , {Component} from 'react';
 import Admin from './Admin';
 import Web3 from 'web3';
-
+import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class Admin1 extends Component{
 
