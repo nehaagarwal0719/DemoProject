@@ -25,6 +25,7 @@
     "mysql": "^2.14.1",
     "mysql2": "^1.6.1",
     "react-bootstrap": "^0.32.4",
+    "react-fontawesome": "^1.7.1",
     "sequelize": "^4.38.0"
   },
   "devDependencies": {

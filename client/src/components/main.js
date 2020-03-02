@@ -14,6 +14,7 @@ class Main extends Component{
     }
   }
 
+
   render()
   {
     return(
@@ -22,54 +23,69 @@ class Main extends Component{
       <Route path="/bid"  component={Bid}/>
        <Route path="/info"  component={Info}/>
       </div>
-       <div id="content">
-            <h2>Property List</h2>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Owner</th>
-                  <th scope="col">Type</th>
-                  <th scope="col">Status</th>
-               </tr>             
 
-
-               </thead>
-               <tbody id="propertyList">
-                  {this.props.props.map((property,key)=>{
+       {this.props.props.map((property,key)=>{
                     return(
-
-                      <tr key={key}>
-                        <th scope="row">{property.id.toString()}</th>
-                         
-                        <td>{property.name}</td>
-                        <td>{property.des}</td>
-                        <td>{property.owner}</td>
-                        <td>{property.type1}</td>
-                        <td>{property.status}</td>
-                        <td><button>
-                           <Link to={'/info/'+property.id} >
-                          MORE INFO
-                          </Link>
-                         </button></td>
-                        {property.status == "SALE" || property.status == "RENT" 
-                          ? <td><button>
-                           <Link to={'/bid/'+property.id} >
-                          Click to bid 
-                          </Link>
-                         </button></td>
-                         :null
-                       }
+       
+      
+        <div class="card-deck col-lg-offset-4 ">
+             <div class="card mr-5 ml-5 mt-5 mb-5 one" >
+                <div class="card-body bg-light">
                       
-                      </tr>
-                     );
+                      <div class="card-text ">
+                       <label class="col-lg-4" >Property ID:</label>
+                      <label class="col-lg-4" >{property.id.toString()}</label>
+                     
+                      </div>
+
+                      <div>
+                       <label class="col-lg-4" >Name:</label>
+                      <label class="col-lg-4" >{property.name}</label>
+                      </div>
+                      <div>
+                       <label class="col-lg-4" >Location:</label>
+                      <label class="col-lg-4" >{property.location}</label>
+                      </div>
+                      <div>
+                       <label class="col-lg-4" >Description:</label>
+                      <label class="col-lg-4"  >{property.des}</label>
+                      </div>
+                      <div>
+                       <label class="col-lg-4" >Status:</label>
+                      <label class="col-lg-4" >{property.status}</label>
+                      </div>
+                      
+                 
+                 </div>
+                 <div class="card-footer">
+                 <div class="row">
+                  <div class="col-lg-1"></div>
+                 <div class="col-lg-7">
+                   <button>
+                             <Link class="nounderline text-dark" to={'/info/'+property.id} >
+                                  More Info
+                            </Link>
+                   </button>
+                  </div> 
+                   <div class="col-lg-4">
+                   {property.status == "SALE" || property.status == "RENT" 
+                          ? <button>
+                            <Link class="nounderline text-dark" to={'/bid/'+property.id} >
+                                Click to bid 
+                            </Link>
+                          </button>
+                          :null
+                         }
+                    </div> 
+                 </div>
+                </div> 
+          
+     </div>
+   </div>  
+
+   );
                    })}
 
-               </tbody>
-          </table>
-        </div>
       </Router>
     );
   }

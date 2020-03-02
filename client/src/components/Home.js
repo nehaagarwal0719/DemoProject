@@ -91,7 +91,6 @@ createProperty(name,des,owner,type) {
     return (
     <div class ="container">
       <div class="row">
-     {this.state.blockNumber}
         <Main props ={this.state.props} 
         createProperty={this.createProperty}
         />

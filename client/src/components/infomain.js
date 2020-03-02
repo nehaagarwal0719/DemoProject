@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import Bid from './bid.js';
 import Info from './info.js';
 import Moment from 'react-moment';
+var FontAwesome = require('react-fontawesome')
 
 class infoMain extends Component{
 
@@ -19,33 +20,46 @@ class infoMain extends Component{
   {
     return(
        <div id="content">
-             <table className="table">
-                <thead>
-                  <tr>    
-                  <th scope="col">id</th>
-                  <th scope="col">property id </th>
-                   </tr>
-                </thead>
-                            
-            <tbody id="ledgerList">
-        
-                  {this.props.ledgers.map((ledger,key1)=>{
-        
+             {this.props.ledgers.map((ledger,key1)=>{
                  if(this.props.lidd==ledger.p_id){
                     return(
-                      <tr key={key1}>
-                      <td>{ledger.id}</td>
-                      <td>{ledger.p_id}</td>
-                      <td>1st owner {ledger.new_owner}</td>
-                      <td><Moment unix>{ledger.time}</Moment></td>
+                      <div class="container">
+                        <div class="row">
+                           <div class="card one bg-light  card1 ">
+                             <div class="card-body">
+                                <div class="row">
+                                  <label class="col-lg-2 ">Owner:</label>
+                                  <label className="col-lg-10">{ledger.new_owner}</label>
+                               </div>
+                               <div class="row">
+                                 <label class="col-lg-2">Time:</label>
+                                 <label className="col-lg-10"><Moment unix>{ledger.time}</Moment></label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         <FontAwesome
+                        className='super-crazy-colors'
+                        name='arrow-down arrow1'
+                        size='5x'
 
-                      </tr>
+                      />
+                      </div> 
 
-                     );
-                  }
+                        );
+                          }
                    })}
-               </tbody>
-          </table>    
+               <div class="card one bg-light  card1 ">
+                             <div class="card-body two">
+                               Property Created
+                               <FontAwesome
+                                className='super-crazy-colors'
+                                name='home'
+                                size='3x'
+
+                              />
+                            </div>
+                          </div>
         </div>
     );
   }

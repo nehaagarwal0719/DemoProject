@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  font-size: 14px;
 }
 
 .App-logo {
@@ -19,6 +19,10 @@
   color: white;
 }
 
+.navbar-default {
+    background: none;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -32,6 +36,10 @@
   position: relative;
 }
 
+.abtim{
+  margin-top:10em;
+}
+
 .back-text {
   text-align: center;
   position: absolute;
@@ -42,10 +50,33 @@
 }
 
 
-.well { width:50%;position: absolute;
+.well { 
+  width:50%;
+  position: absolute;
   margin-bottom: 20px;}
 
+.one{
+ width: 30rem;
+}
 
+.two{
+  text-align: center;
+}
+
+.arrow1{
+font-size:50px;
+text-align: center;display: inline-block;
+ margin-left: 10em;
+}
+
+.card1 {
+  margin-left: 20em; /* Added */
+  float: none; /* Added */
+
+}
+.nounderline {
+    text-decoration: none !important
+  }
 
 @keyframes App-logo-spin {
   from {
@@ -55,4 +86,49 @@
     transform: rotate(360deg);
   }
 }
+
+.space{
+  margin-top: 15em;
+}
+.three{
+text-align: center;
+vertical-align: bottom;
+}
+.hy{
+
+ /* The image used */
+  background-image: url("./assets/img/header-bg.jpg");
+
+  /* Full height */
+ 
+
+  /* Center and scale the image nicely */
+
+  background-repeat: no-repeat;
+
+  background-attachment:scroll;
+  background-position:center center;
+  -webkit-background-size: cover;
+  height: 95vh
+}
+ 
+
+.intro-lead-in{font-size:100px;
+  font-style:italic;font-family:'Droid Serif',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji'}
+  .nounderline {
+    text-decoration: none !important
+  }
+.harsh{ 
+  position:absolute;
+  top: 50%;
+  left:20%;
+  transform: translate(-50%, -50%);
+  }
+.harsh1{ 
+    position:absolute;
+    top: 50%;
+    left:60%;
+    transform: translate(-50%, -50%);
+    }
+
 

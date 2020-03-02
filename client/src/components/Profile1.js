@@ -61,7 +61,24 @@ constructor (props){
     loading : true
 
   }
+  
+  
 }
+
+ handleAlternate(event){
+   event.preventDefault()
+  const id = this.propertyId.value
+  this.props.forRent(id)
+}
+
+
+  handleAlternate1(event) {
+     event.preventDefault()
+  const id = this.propertyId.value
+  this.props.forSale(id)
+  }
+
+
 
  render(){
   return(
@@ -76,12 +93,12 @@ constructor (props){
 
                   {this.state.account != "0xc55961b8eaD792670E5393418950BE7597d521ED"?
                    <li className="nav-item">
-                   <a href="" data-target="#propertydetails" data-toggle="tab" class="nav-link lead">Property Details</a>
+                   <a href="" data-target="#propertydetails" class="text-dark" data-toggle="tab" class="nav-link lead">Property Details</a>
                    </li>:null}
 
                    {this.state.account != "0xc55961b8eaD792670E5393418950BE7597d521ED"?
                    <li className="nav-item">
-                   <a href="" data-target="#biddetails" data-toggle="tab" class="nav-link lead">Bid Details</a>
+                   <a href="" data-target="#biddetails" class="text-dark" data-toggle="tab" class="nav-link lead">Bid Details</a>
                    </li>:null}
 
                     {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?
@@ -148,38 +165,10 @@ constructor (props){
                                 </div>
                                 );
                               }})}
-
-                          
-                            
-                            <div class="form-group row">
-                                <form onSubmit={(event) => {
-                                  event.preventDefault()
-                                  const id = this.propertyId.value
-                                  this.props.forSale(id)
-                                }}>
-                                <div className="form-group row">
-                                <div class="col-lg-12">
-                                <input
-                                id="propertyId"
-                                type="text"
-                                ref={(input) => { this.propertyId = input }}
-                                class="form-control m-2"
-                                placeholder="Property Id"
-                                required />
-                                </div>
-                                </div>
-                                <div class="col-lg-9 text-left">
-                                <button type="submit" className="button">For sale</button>
-                                </div>
-                                </form>
-                           </div>   
+  
 
                           <div  class="form-group row">  
-                                <form onSubmit={(event) => {
-                                  event.preventDefault()
-                                  const id = this.propertyId.value
-                                  this.props.forRent(id)
-                                }}>
+                                <form>
                                 <div className="form-group row">
                                 <div  class="col-lg-12">
                                 <input
@@ -191,8 +180,10 @@ constructor (props){
                                 required />
                                 </div>
                                 </div>
-                                <div class="col-lg-9 text-left">
-                                <button type="submit" className="button">For Rent</button>
+                                <div class="col-lg-12 text-left">
+                                <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate.bind(this)}>For Rent</button>
+                              
+                                 <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate1.bind(this)}>For sale</button>
                                 </div>
                                 </form>
                           </div>   

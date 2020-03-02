@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import about from '../assets/img/about.jpg' 
+var FontAwesome = require('react-fontawesome')
 
-class Landing extends Component {
+class Landing1 extends Component {
   render() {
     return (
       <div classsName="App">
@@ -14,6 +15,7 @@ class Landing extends Component {
       </div>
     </div>
   </header>
+
 
   <section className="page-section">
     <div className="container">
@@ -31,45 +33,47 @@ class Landing extends Component {
         <p className="section-subheading text-muted" ><i>Multi layer listing verification. Get the best prices on the best homes.</i></p>
         <p className="section-subheading text-muted" ><i>Removes intermediaries which speed up the process.</i></p>
       </ul>
-    </div>
-  </section>
-  <section className="page-section space">
-    <div className="container ">
-      <div className="row ">
-        <div className="col-lg-12 text-center">
-          <h2 className="section-heading text-uppercase text-body">Services</h2>
-          <h3 className="section-subheading text-muted">A Better Home Search.</h3>
-        </div>
-      </div>
-      <div className="row text-center">
-        <div className="col-md-4">
-          <span className="fa-stack fa-4x">
-            <i className="fa fa-circle fa-stack-2x text-primary"></i>
-            <i className="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-          </span>
-          <h4 className="service-heading">Buy</h4>
-          <p className="text-muted">something.</p>
-        </div>
-        <div className="col-md-4">
-          <span className="fa-stack fa-4x">
-            <i className="fa fa-circle fa-stack-2x text-primary"></i>
-            <i className="fa fa-truck fa-stack-1x fa-inverse"></i>
-          </span>
-          <h4 className="service-heading">Sell</h4>
-          <p className="text-muted">something</p>
-        </div>
-        <div className="col-md-4">
-          <span className="fa-stack fa-4x">
-            <i className="fa fa-circle fa-stack-2x text-primary"></i>
-            <i className="fa fa-key fa-stack-1x fa-inverse"></i>
-          </span>
-          <h4 className="service-heading">Rent</h4>
-          <p className="text-muted">something.</p>
-        </div>
-      </div>
+    
     </div>
   </section>
 
+
+
+<section>
+<div class="container space">
+<div class="row">
+  <div className="col-lg-12 text-center">
+          <h2 className="section-heading text-uppercase text-body">Services</h2>
+          <h3 className="section-subheading text-muted">A Better Home Search.</h3>
+        </div>
+<div class="col-lg-4">
+    <FontAwesome
+                        className='super-crazy-colors three'
+                        name='shopping-cart'
+                        size='5x'
+
+                      />
+</div>
+<div class="col-lg-4">
+    <FontAwesome
+                        className='super-crazy-colors three'
+                        name='truck'
+                        size='5x'
+
+                      />
+</div>
+<div class="col-lg-4">
+    <FontAwesome
+                        className='super-crazy-colors three'
+                        name='key'
+                        size='5x'
+
+                      />
+</div>
+</div>
+
+</div>
+</section>
 
   <section className="py-5">
     <div className="container">
@@ -98,38 +102,10 @@ class Landing extends Component {
     </div>
   </section>
 
-  <footer className="footer">
-    <div className="container">
-      <div className="row align-items-center">
-      <div className="col-md-4">
-          <span className="copyright text-center"><b>Contact us on</b></span>
-        </div>
-        <div className="col-md-12" >
-          <ul className="list-inline social-buttons">
-            <li className="list-inline-item">
-              <a href="#something">
-                <i className="fa fa-twitter"></i>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a href="#something">
-                <i className="fa fa-facebook-f"></i>
-              </a>
-            </li>
-            <li className="list-inline-item">
-              <a href="#something">
-                <i className="fa fa-linkedin"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-       
-      </div>
-    </div>
-  </footer>
+  
     </div>
     )
   }
 }
 
-export default Landing
+export default Landing1
