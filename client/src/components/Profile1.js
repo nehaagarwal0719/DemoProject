@@ -1,10 +1,6 @@
 import React  , {Component} from 'react';
 import Web3 from 'web3';
 import jwt_decode from 'jwt-decode'
-import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
-import owner1 from './owner1';
-import Admin from './Admin'; 
-import freelancer from '../abis/freelancer.json';
 import Moment from 'react-moment';
 
 class Profile1 extends Component{
@@ -72,6 +68,13 @@ constructor (props){
 }
 
 
+ handleVerify(event){
+   event.preventDefault()
+  const id = this.propertyId.value
+  this.props.verifyProperty(id)
+}
+
+
   handleAlternate1(event) {
      event.preventDefault()
   const id = this.propertyId.value
@@ -85,7 +88,7 @@ constructor (props){
    <div className="container">
      <div className="container">
         <div className="row my-2">
-            <div className="col-lg-6 order-lg-2">
+            <div className="col-lg-8 order-lg-2">
                 <ul className="nav nav-tabs navbar-light">
                    <li className="nav-item">
                    <a href="" data-target="#profile" data-toggle="tab" class="nav-link active lead ">Profile</a>
@@ -101,10 +104,16 @@ constructor (props){
                    <a href="" data-target="#biddetails" class="text-dark" data-toggle="tab" class="nav-link lead">Bid Details</a>
                    </li>:null}
 
-                    {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?
+                  {this.state.account != "0xc55961b8eaD792670E5393418950BE7597d521ED"? 
                    <li className="nav-item">
                    <a href="" data-target="#add_property" data-toggle="tab" class="nav-link lead"> Add Property </a>
                    </li>:null}
+
+                    {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?
+                   <li className="nav-item">
+                   <a href="" data-target="#verify_property" data-toggle="tab" class="nav-link lead"> Verify Property </a>
+                   </li>:null}
+
                </ul>
                <div className="tab-content py-4">
                     <div className="tab-pane active" id="profile">
@@ -155,10 +164,15 @@ constructor (props){
                                       <label class="col-lg-4 col-form-label form-control-label">Property Location</label>
                                       <label className="col-lg-8 col-form-label form-control-label">{property.location}</label>
                                     </div>
+
+                                     <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Verification status</label>
+                                      {property.bstatus==false?<label className="col-lg-8 col-form-label form-control-label">Not Verified</label>:<label className="col-lg-8 col-form-label form-control-label">Verified</label>}
+                                    </div>
                                       
       
                               <div class="form-group row">
-                                      <label class="col-lg-4 col-form-label form-control-label">Property time</label>
+                                      <label class="col-lg-4 col-form-label form-control-label">Property addition time</label>
                                           <label className="col-lg-8 col-form-label form-control-label"><Moment unix>{property.time}</Moment></label>
                                     </div>
 
@@ -182,7 +196,7 @@ constructor (props){
                                 </div>
                                 <div class="col-lg-12 text-left">
                                 <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate.bind(this)}>For Rent</button>
-                              
+
                                  <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate1.bind(this)}>For sale</button>
                                 </div>
                                 </form>
@@ -191,25 +205,24 @@ constructor (props){
                
        </div>
 
-      {this.state.account == "0xc55961b8eaD792670E5393418950BE7597d521ED"?<div class="tab-pane" id="add_property">
+      <div class="tab-pane" id="add_property">
       <div className="form-group row">
 
       <div id="content">
       <form onSubmit={(event) => {
         event.preventDefault()
-        const bno= this.state.blockNumber
         const name = this.propertyName.value
         const des = this.propertyDes.value
         const owner = this.propertyOwner.value
         const type= this.propertyType.value
         const location =this.propertyLocation.value
 
-        this.props.createProperty(bno,name,des,owner,type,location)
+        this.props.createProperty(name,des,owner,type,location)
       }}>
       <div className="form-group mr-sm-2">
           <div class="form-group row">
-             <label className="col-lg-3 col-form-label form-control-label text-secondary">Property Name</label>
-                <div className="col-lg-6">
+             <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Name</label>
+                <div className="col-lg-8">
                  <input
                   id="propertyName"
                   type="text"
@@ -221,8 +234,8 @@ constructor (props){
            </div>
 
             <div class="form-group row">
-              <label className="col-lg-3 col-form-label form-control-label text-secondary">Property Type</label>
-                <div className="col-lg-6">
+              <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Type</label>
+                <div className="col-lg-8">
                   <select class="form-control " id="propertyType"   ref={(input) => { this.propertyType = input }}>
                     <option >-Select an option-</option>
                     <option >House</option>
@@ -233,8 +246,8 @@ constructor (props){
             </div>    
 
           <div class="form-group row">
-            <label className="col-lg-3 col-form-label form-control-label text-secondary">Property Owner</label>
-              <div className="col-lg-6">
+            <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Owner</label>
+              <div className="col-lg-8">
               <input
               id="propertyOwner"
               type="text"
@@ -246,8 +259,8 @@ constructor (props){
           </div>
 
           <div class="form-group row">
-             <label className="col-lg-3 col-form-label form-control-label text-secondary">Property Location</label>
-              <div className="col-lg-6">
+             <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Location</label>
+              <div className="col-lg-8">
                 <input 
                 id="propertyLocation"
                 type="text"
@@ -259,8 +272,8 @@ constructor (props){
           </div>
 
         <div class="form-group row">
-          <label className="col-lg-3 col-form-label form-control-label text-secondary">Description</label>
-            <div className="col-lg-6"> 
+          <label className="col-lg-4 col-form-label form-control-label text-secondary">Description</label>
+            <div className="col-lg-8"> 
             <textarea rows="5"
             id="propertyDes"
             type="text"
@@ -273,59 +286,105 @@ constructor (props){
 
       </div>
       <div class="row">
-      <div class="col-lg-5"></div>
-      <div class="col-lg-5">
+      <div class="col-lg-3"></div>
+      <div class="col-lg-9">
       <button type="submit" class="button text-left btn-lg">Add Property</button>
       </div>
       <div class="col-lg-2"></div>
       </div>
       </form>
-
-
-      <h2>Property List</h2>
-      <table className="table">
-      <thead>
-      <tr>
-      <th scope="col">#</th>
-      <th scope="col">Name</th>
-      <th scope="col">Description</th>
-      <th scope="col">Owner</th>
-      <th scope="col">Type</th>
-      <th scope="col">Status</th>
-      <th scope="col">Purchased</th>
-      <th scope="col">bno</th>
-      </tr>             
-
-      </thead>
-      <tbody id="propertyList">
-
-      {this.props.props.map((property,key)=>{
-        return(
-
-        <tr key={key}>
-        <th scope="row">{property.id.toString()}</th>
-
-        <td>{property.name}</td>
-        <td>{property.des}</td>
-        <td>{property.owner}</td>
-        <td>{property.type1}</td>  
-        <td>{property.status}</td>    
-        <td>{property.purchased.toString()?"Not purchased":"purchased"}</td>     
-        <td>{property.bno}</td>   
-        </tr>
-        );
-      })}
-
-      </tbody>
-      </table>
       </div>
 
 
       </div>
       </div> 
-      :null}
+
+      <div class="tab-pane" id="verify_property">
+
+                           {this.props.props.map((property,key)=>{
+                            if(property.bstatus==false && property.id>=1){
+                              return(
+                                <div>
+
+                                    <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property ID</label>
+                                      <label className="col-lg-8 col-form-label form-control-label">{property.id}</label>
+                                    </div>
+
+                                    <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Owner</label>
+                                      <label className="col-lg-8 col-form-label form-control-label">{property.owner}</label>
+                                    </div>
 
 
+                                    <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Name</label>
+                                      <label className="col-lg-8 col-form-label form-control-label">{property.name}</label>
+                                    </div>
+
+                                    <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Status</label>
+                                      <label className="col-lg-8 col-form-label form-control-label">{property.status}</label>
+                                    </div>
+
+                                     <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Location</label>
+                                      <label className="col-lg-8 col-form-label form-control-label">{property.location}</label>
+                                    </div>
+
+                                     <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property Verification status</label>
+                                        {property.bstatus==true? <label className="col-lg-8 col-form-label form-control-label">Verified</label>: <label className="col-lg-8 col-form-label form-control-label">Not Verified</label>}
+                                    </div>
+                                      
+      
+                              <div class="form-group row">
+                                      <label class="col-lg-4 col-form-label form-control-label">Property addition time</label>
+                                          <label className="col-lg-8 col-form-label form-control-label"><Moment unix>{property.time}</Moment></label>
+                                    </div>
+
+                                </div>
+                                );
+                              }})}
+  
+
+                          <div  class="form-group row">  
+                                <form>
+                                <div className="form-group row">
+                                <div  class="col-lg-12">
+                                <input
+                                id="propertyId"
+                                type="text"
+                                ref={(input) => { this.propertyId = input }}
+                                class="form-control m-2"
+                                placeholder="Property Id"
+                                required />
+                                </div>
+                                </div>
+                                <div class="col-lg-12 text-left">
+                                <button type="button" className=" col-lg-5 button" onClick={this.handleVerify.bind(this)}>Verify Property</button>
+
+                                </div>
+                                </form>
+                          </div>   
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+  
                     <div class="tab-pane" id="biddetails">
                         <div>
                            {this.props.bids.map((bid,key)=>{

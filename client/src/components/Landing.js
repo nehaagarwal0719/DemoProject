@@ -20,12 +20,10 @@ class Landing extends Component {
       <div className="row">
         <div className="col-lg-12 text-center">
         <h2 className="section-heading text-uppercase">About</h2>
-
-          <h3 className="section-subheading text-muted">We are here to help you.</h3>
         </div>
       </div>
-     <img src={about} className="about" alt="about" width="600" height="400" align="left" padding-right="70px"/>
-      <ul>
+     <img src={about} className="about" alt="about" width="400" height="400" align="left" padding-right="25px"/>
+      <ul margin-left="20em">
         <p className="section-subheading text-muted"  ><i>No more middle-men.</i></p>
         <p className="section-subheading text-muted" ><i>Your privacy protected. We’ll never sell your personal information to third parties.</i></p>
         <p className="section-subheading text-muted" ><i>Multi layer listing verification. Get the best prices on the best homes.</i></p>

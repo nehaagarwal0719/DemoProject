@@ -5,7 +5,6 @@ contract freelancer{
 
     struct property{
         uint id;
-        uint bno;
         string name;
         string des;
         string type1;
@@ -13,6 +12,7 @@ contract freelancer{
         string location;
         uint256 time;
         string status;
+        bool bstatus;
         bool purchased;
 
     }
@@ -34,7 +34,7 @@ contract freelancer{
     }
 
     
-    uint public propertyCount=0;
+    uint public propertyCount=1;
     uint public bidCount=0;
     uint public linkCount=0;
     uint public ledgerCount=0;
@@ -47,7 +47,6 @@ contract freelancer{
     
     event propertyCreated(
         uint id,
-        uint bno,
         string name,
         string des,
         string type1,
@@ -55,8 +54,11 @@ contract freelancer{
         string location,
         uint256 time,
         string status,
+        bool bstatus,
         bool purchased
     );
+
+
 
     event bidCreated(
         uint checkid,
@@ -116,25 +118,31 @@ contract freelancer{
     );
   
 
-    function createProperty(uint _bno,string memory _name,string memory _des,address payable _owner,string memory _type, string memory _location)public{
+    function createProperty(string memory _name,string memory _des,address payable _owner,string memory _type, string memory _location)public{
         
-        props[propertyCount]=property(propertyCount,_bno,_name,_des,_type,_owner,_location, now,"NOT AVAILABLE",false);
-         ledgers[ledgerCount]=ledger(ledgerCount,propertyCount,_owner,now);
-        ledgerCount++; propertyCount++;
-         emit ledgerCreated(ledgerCount,propertyCount,_owner,now);
-        emit propertyCreated(propertyCount,_bno,_name,_des,_type,_owner,_location,now,"NOT AVAILABLE",false);
+        props[propertyCount]=property(propertyCount,_name,_des,_type,_owner,_location, now,"NOT AVAILABLE",false,false);
+        propertyCount++;
+        emit propertyCreated(propertyCount,_name,_des,_type,_owner,_location,now,"NOT AVAILABLE",false,false);
+    }
+
+    function verifyProperty(uint _id)public{
+        props[_id].bstatus=true;
+        ledgers[ledgerCount]=ledger(ledgerCount,_id,props[_id].owner,now);
+        ledgerCount++;
+        emit ledgerCreated(ledgerCount,_id,props[_id].owner,now);
+        emit propertyCreated(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].location,now,"NOT AVAILABLE",false,true);
     }
 
     function forSale(uint _id)public payable{
        require(props[_id].owner==msg.sender);
         props[_id].status="SALE";
-        emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
+        emit Sale(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
     }
 
     function forRent(uint _id)public payable{
         require(props[_id].owner==msg.sender);
         props[_id].status="RENT";
-        emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
+        emit Sale(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
     }
 
     function forApprove(uint _id) public payable{

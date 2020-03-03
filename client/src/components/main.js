@@ -1,5 +1,5 @@
 import React  , {Component} from 'react';
-import { BrowserRouter as Router,Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route} from "react-router-dom";
 import {Link} from "react-router-dom";
 import Bid from './bid.js';
 import Info from './info.js';
@@ -25,6 +25,7 @@ class Main extends Component{
       </div>
 
        {this.props.props.map((property,key)=>{
+        if(property.bstatus==true){
                     return(
        
       
@@ -84,7 +85,7 @@ class Main extends Component{
    </div>  
 
    );
-                   })}
+                   }})}
 
       </Router>
     );

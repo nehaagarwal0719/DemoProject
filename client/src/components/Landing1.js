@@ -23,17 +23,21 @@ class Landing1 extends Component {
         <div className="col-lg-12 text-center">
         <h2 className="section-heading text-uppercase">About</h2>
 
-          <h3 className="section-subheading text-muted">We are here to help you.</h3>
         </div>
       </div>
-     <img src={about} className="about" alt="about" width="600" height="400" align="left" padding-right="70px"/>
-      <ul>
-        <p className="section-subheading text-muted"  ><i>No more middle-men.</i></p>
+      <div class="row">
+      <div >
+        <img src={about} className="about  col-lg-12 " alt="about"  />
+      </div>
+      <div class="col-lg-6 ">
+      <ul class="float-center mr-5">
+        <p className="section-subheading text-muted "  ><i>No more middle-men.</i></p>
         <p className="section-subheading text-muted" ><i>Your privacy protected. We’ll never sell your personal information to third parties.</i></p>
         <p className="section-subheading text-muted" ><i>Multi layer listing verification. Get the best prices on the best homes.</i></p>
         <p className="section-subheading text-muted" ><i>Removes intermediaries which speed up the process.</i></p>
       </ul>
-    
+    </div>
+    </div>
     </div>
   </section>
 

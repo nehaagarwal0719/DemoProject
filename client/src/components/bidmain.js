@@ -1,6 +1,4 @@
 import React , {Component} from 'react';
-import Bid from './bid.js';
-import freelancer from '../abis/freelancer.json';
 import Web3 from 'web3';
 
 class BidMain extends Component{

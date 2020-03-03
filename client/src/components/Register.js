@@ -39,7 +39,8 @@ async loadBlockchainData(){
       email: '',
       password: '',
       address:'',
-      errors: {}
+       fields: {},
+        errors: {}
     }
 
     this.onChange = this.onChange.bind(this)
@@ -48,10 +49,15 @@ async loadBlockchainData(){
 
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value })
+    let fields = this.state.fields;
+      fields[e.target.name] = e.target.value;
+      this.setState({
+        fields
+      });
   }
   onSubmit(e) {
     e.preventDefault()
-
+ if (this.validateForm()) {
     const newUser = {
       fname: this.state.fname,
       lname: this.state.lname,
@@ -59,11 +65,87 @@ async loadBlockchainData(){
       password: this.state.password,
       address:this.state.account
     }
-
+    alert("Form submitted");
+      
     register(newUser).then(res => {
-      this.props.history.push(`/login`)
+      this.props.history.push(`/login`);
     })
   }
+  }
+  
+
+
+validateForm() {
+
+      let fields = this.state.fields;
+      let errors = {};
+      let formIsValid = true;
+
+      if (!this.state.fname) {
+        formIsValid = false;
+        errors["fname"] = "*Please enter your username.";
+      }
+
+      if (typeof this.state.fname !== "undefined") {
+        if (!this.state.fname.match(/^[a-zA-Z ]*$/)) {
+          formIsValid = false;
+          errors["fname"] = "*Please enter alphabet characters only.";
+        }
+      }
+    
+
+      if (!this.state.lname) {
+        formIsValid = false;
+        errors["lname"] = "*Please enter your username.";
+      }
+
+      if (typeof this.state.lname !== "undefined") {
+        if (!this.state.lname.match(/^[a-zA-Z ]*$/)) {
+          formIsValid = false;
+          errors["lname"] = "*Please enter alphabet characters only.";
+        }
+      }
+
+      if (!this.state.email) {
+        formIsValid = false;
+        errors["emailid"] = "*Please enter your email-ID.";
+      }
+
+      if (typeof this.state.email!== "undefined") {
+        //regular expression for email validation
+        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        if (!pattern.test(this.state.email)) {
+          formIsValid = false;
+          errors["emailid"] = "*Please enter valid email-ID.";
+        }
+      }
+
+
+       if (!this.state.password) {
+        formIsValid = false;
+        errors["password"] = "*Please enter your password.";
+      }
+
+      if (typeof this.state.password!== "undefined") {
+        if (!this.state.password.match(/^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%&]).*$/)) {
+          formIsValid = false;
+          errors["password"] = "*Please enter secure and strong password.";
+        }
+      }
+
+
+
+
+
+      this.setState({
+        errors: errors
+      });
+      return formIsValid;
+
+
+    }
+
+
 
   render() {
     return (
@@ -81,6 +163,7 @@ async loadBlockchainData(){
                   value={this.state.fname}
                   onChange={this.onChange}
                 />
+                 <div className="errorMsg">{this.state.errors.fname}</div>
               </div>
               <div className="form-group">
                 <label htmlFor="name">Last name</label>
@@ -92,6 +175,7 @@ async loadBlockchainData(){
                   value={this.state.lname}
                   onChange={this.onChange}
                 />
+                <div className="errorMsg">{this.state.errors.lname}</div>
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email address</label>
@@ -103,6 +187,7 @@ async loadBlockchainData(){
                   value={this.state.email}
                   onChange={this.onChange}
                 />
+                <div className="errorMsg">{this.state.errors.emailid}</div>
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
@@ -114,6 +199,7 @@ async loadBlockchainData(){
                   value={this.state.password}
                   onChange={this.onChange}
                 />
+                <div className="errorMsg">{this.state.errors.password}</div>
               </div>
               <button
                 type="submit"

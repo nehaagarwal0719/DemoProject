@@ -1,8 +1,4 @@
 import React  , {Component} from 'react';
-import { BrowserRouter as Router,Switch, Route} from "react-router-dom";
-import {Link} from "react-router-dom";
-import Bid from './bid.js';
-import Info from './info.js';
 import Moment from 'react-moment';
 var FontAwesome = require('react-fontawesome')
 

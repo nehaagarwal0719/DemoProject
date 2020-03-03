@@ -3,7 +3,6 @@ import freelancer from '../abis/freelancer.json';
 import jwt_decode from 'jwt-decode'
 import Web3 from 'web3';
 import Profile1 from './Profile1';
-import Profile2 from './Profile2';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 class Profile extends Component {
@@ -78,7 +77,8 @@ async loadBlockchainData(){
      this.forSale = this.forSale.bind(this)
      this.forApprove = this.forApprove.bind(this)
      this.forRent = this.forRent.bind(this)
-    this.createProperty = this.createProperty.bind(this);
+     this.createProperty = this.createProperty.bind(this);
+     this.verifyProperty = this.verifyProperty.bind(this);
   }
 
   componentDidMount() {
@@ -108,6 +108,15 @@ async loadBlockchainData(){
     })
   }
 
+   verifyProperty(id) {
+    this.setState({ loading: true })
+    this.state.Freelancer.methods.verifyProperty(id).send({ from: this.state.account})
+    .once('receipt', (receipt) => {
+      this.setState({ loading: false })
+    })
+  }
+
+
  forApprove(id) {
     this.setState({ loading: true })
     this.state.Freelancer.methods.forApprove(id).send({ from: this.state.account})
@@ -116,14 +125,16 @@ async loadBlockchainData(){
     })
   }
 
- createProperty(bno,name,des,owner,type,location) {
+ createProperty(name,des,owner,type,location) {
     this.setState({ loading: true })
     //let id1=this.props.params.id
        //this.state.cid =checkid
-    this.state.Freelancer.methods.createProperty(bno,name,des,owner,type,location).send({ from: this.state.account })
+    this.state.Freelancer.methods.createProperty(name,des,owner,type,location).send({ from: this.state.account })
     .once('receipt', (receipt) => {
       this.setState({ loading: false })
     })
+
+
 
   }
   render() {
@@ -132,11 +143,12 @@ async loadBlockchainData(){
           <Profile1 props ={this.state.props}
          forSale={this.forSale}
          forRent={this.forRent}
+         verifyProperty={this.verifyProperty}
           createProperty={this.createProperty}
           bids ={this.state.bids}
           forApprove={this.forApprove} 
+
            /> 
-        
       </div>  
     )
   }
