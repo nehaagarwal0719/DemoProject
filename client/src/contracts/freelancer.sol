@@ -1,8 +1,6 @@
 pragma solidity ^0.5.1;
 contract freelancer{
 
-   // enum Status {NOT_AVAILABLE,FOR_SELL,FOR_RENT}
-
     struct property{
         uint id;
         string name;
@@ -34,7 +32,7 @@ contract freelancer{
     }
 
     
-    uint public propertyCount=1;
+    uint public propertyCount=0;
     uint public bidCount=0;
     uint public linkCount=0;
     uint public ledgerCount=0;
@@ -83,10 +81,8 @@ contract freelancer{
         string name,
         string des,
         string type1,
-        address payable owner,
         string status,
         bool purchased
-
     );
 
     event Rent(
@@ -130,25 +126,24 @@ contract freelancer{
         ledgers[ledgerCount]=ledger(ledgerCount,_id,props[_id].owner,now);
         ledgerCount++;
         emit ledgerCreated(ledgerCount,_id,props[_id].owner,now);
-        emit propertyCreated(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].location,now,"NOT AVAILABLE",false,true);
+        emit propertyCreated(props[_id].id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].location,now,"NOT AVAILABLE",false,true);
     }
 
     function forSale(uint _id)public payable{
-       require(props[_id].owner==msg.sender);
+       //require(props[_id].owner==msg.sender);
         props[_id].status="SALE";
-        emit Sale(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
+        emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].status,props[_id].purchased);
     }
 
     function forRent(uint _id)public payable{
-        require(props[_id].owner==msg.sender);
+        //require(props[_id].owner==msg.sender);
         props[_id].status="RENT";
-        emit Sale(_id,props[_id].name,props[_id].des,props[_id].type1,props[_id].owner,props[_id].status,props[_id].purchased);
-    }
-
+        emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].status,props[_id].purchased);
+   }
     function forApprove(uint _id) public payable{
 
         bids[_id].status=true;
-        emit Approved(bids[_id].checkid,bidCount,bids[_id].name,bids[_id].message,bids[_id].price,bids[_id].bidder,bids[_id].status);
+        emit Sale(propertyCount,props[_id].name,props[_id].des,props[_id].type1,props[_id].status,props[_id].purchased);
     }
 
 
@@ -189,6 +184,7 @@ contract freelancer{
          //mark as purchased
         _property.purchased = true;
         _property.status="NOT AVAILABLE";
+        _property.owner=_bid.bidder;
          //update the product
          bids[_id]=_bid;
          props[property_id]=_property;

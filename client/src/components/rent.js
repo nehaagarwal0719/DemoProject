@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 //import './App.css';
 import Web3 from 'web3';
 import freelancer from '../abis/freelancer.json';
-import Main from './main.js';
-import Sale from './sale.js';
-import Rent from './rent.js';
+import RentMain from './rentmain.js';
 import Bid from './bid.js';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 
-
-class Home extends Component {
+class Sale extends Component {
 
 async componentWillMount(){
    document.title = "Blocklancer"
@@ -94,15 +91,10 @@ createProperty(name,des,owner,type) {
     return (
     <div class ="container">
       <div class="row">
-        <Main props ={this.state.props} 
+        <RentMain props ={this.state.props} 
         createProperty={this.createProperty}
         />
-        <Sale props ={this.state.props} 
-        createProperty={this.createProperty}
-        />
-        <Rent props ={this.state.props} 
-        createProperty={this.createProperty}
-        />
+      
      
         </div>
     </div>
@@ -110,4 +102,4 @@ createProperty(name,des,owner,type) {
   }
 }
 
-export default Home;
+export default Sale;

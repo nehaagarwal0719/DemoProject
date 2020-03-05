@@ -203,9 +203,9 @@ validateForm() {
               </div>
               <button
                 type="submit"
-                className="btn btn-lg btn-primary btn-block"
+                className="button btn-lg  btn-block"
               >
-                Register!
+                Register
               </button>
             </form>
           </div>

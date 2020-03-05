@@ -68,13 +68,6 @@ constructor (props){
 }
 
 
- handleVerify(event){
-   event.preventDefault()
-  const id = this.propertyId.value
-  this.props.verifyProperty(id)
-}
-
-
   handleAlternate1(event) {
      event.preventDefault()
   const id = this.propertyId.value
@@ -195,7 +188,7 @@ constructor (props){
                                 </div>
                                 </div>
                                 <div class="col-lg-12 text-left">
-                                <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate.bind(this)}>For Rent</button>
+                                <button type="button" className=" col-lg-5 button mr-3" onClick={this.handleAlternate.bind(this)}>For Rent</button>
 
                                  <button type="button" className=" col-lg-5 button" onClick={this.handleAlternate1.bind(this)}>For sale</button>
                                 </div>
@@ -219,9 +212,9 @@ constructor (props){
 
         this.props.createProperty(name,des,owner,type,location)
       }}>
-      <div className="form-group mr-sm-2">
+      <div className="form-group">
           <div class="form-group row">
-             <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Name</label>
+             <label className="col-lg-4 col-form-label form-control-label ">Property Name</label>
                 <div className="col-lg-8">
                  <input
                   id="propertyName"
@@ -234,7 +227,7 @@ constructor (props){
            </div>
 
             <div class="form-group row">
-              <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Type</label>
+              <label className="col-lg-4 col-form-label form-control-label">Property Type</label>
                 <div className="col-lg-8">
                   <select class="form-control " id="propertyType"   ref={(input) => { this.propertyType = input }}>
                     <option >-Select an option-</option>
@@ -246,7 +239,7 @@ constructor (props){
             </div>    
 
           <div class="form-group row">
-            <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Owner</label>
+            <label className="col-lg-4 col-form-label form-control-label">Property Owner</label>
               <div className="col-lg-8">
               <input
               id="propertyOwner"
@@ -259,7 +252,7 @@ constructor (props){
           </div>
 
           <div class="form-group row">
-             <label className="col-lg-4 col-form-label form-control-label text-secondary">Property Location</label>
+             <label className="col-lg-4 col-form-label form-control-label">Property Location</label>
               <div className="col-lg-8">
                 <input 
                 id="propertyLocation"
@@ -272,7 +265,7 @@ constructor (props){
           </div>
 
         <div class="form-group row">
-          <label className="col-lg-4 col-form-label form-control-label text-secondary">Description</label>
+          <label className="col-lg-4 col-form-label form-control-label">Description</label>
             <div className="col-lg-8"> 
             <textarea rows="5"
             id="propertyDes"
@@ -349,20 +342,24 @@ constructor (props){
   
 
                           <div  class="form-group row">  
-                                <form>
+                                <form onSubmit={(event) => {
+                                event.preventDefault()
+                                const id = this.propertyIdd.value
+                                 this.props.verifyProperty(id)
+                                }}>
                                 <div className="form-group row">
                                 <div  class="col-lg-12">
                                 <input
                                 id="propertyId"
                                 type="text"
-                                ref={(input) => { this.propertyId = input }}
+                                ref={(input) => { this.propertyIdd = input }}
                                 class="form-control m-2"
                                 placeholder="Property Id"
                                 required />
                                 </div>
                                 </div>
                                 <div class="col-lg-12 text-left">
-                                <button type="button" className=" col-lg-5 button" onClick={this.handleVerify.bind(this)}>Verify Property</button>
+                                <button type="submit" className=" col-lg-8 button btn-block">Verify Property</button>
 
                                 </div>
                                 </form>

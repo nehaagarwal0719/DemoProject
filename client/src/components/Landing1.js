@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import about from '../assets/img/about.jpg' 
+import first from '../assets/img/buy.jpg';
+import second from '../assets/img/rent.jpeg';
+import third from '../assets/img/sell.jpg';
 var FontAwesome = require('react-fontawesome')
 
 class Landing1 extends Component {
@@ -10,74 +13,91 @@ class Landing1 extends Component {
   <header className="masthead">
     <div className="container">
       <div className="intro-text">
-        <div className="intro-lead-in">Welcome!</div>
-        <div className="intro-heading text-uppercase">A Better Home Search</div>
+        <div className="intro-lead-in">Shelter Hub</div><br/>
+        <div className="intro-heading ">A Better Home Search</div>
       </div>
     </div>
   </header>
 
 
-  <section className="page-section">
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12 text-center">
-        <h2 className="section-heading text-uppercase">About</h2>
+<section className="page-section" id="about">
+      <div className="container">
+        <div className="row ">
+          <div className="col-lg-12 text-center">
+            <h2 className="section-heading text-uppercase">About</h2>
+        
+          </div>
+        </div>
+        <div>
 
+
+      <div className="container">
+         <div className="row margin">
+            <div class="col-lg-6">
+                <img src={about} className="about " alt="about" width="600" height="400" align="left" />
+            </div>
+      
+              <div class="col-lg-6">
+                <ul>
+                  <h5 className="section-subheading text-muted" align="center"><i>Transparency, secure and decentralized system.</i></h5><br/><br/>
+                  <h5 className="section-subheading text-muted" align="center"><i>Removes intermediaries such as brokers which speed up the process.</i></h5><br/><br/>
+                  <h5 className="section-subheading text-muted" align="center"><i>Efficient, fast and cheaper transactions.</i></h5><br/><br/>
+                  <h5 className="section-subheading text-muted" align="center"><i>Buy, Sell and Rent commodities using bidding. </i></h5><br/><br/>
+                  <h5 className="section-subheading text-muted" align="center"><i>Time saved in verifiying property details. </i></h5><br/><br/>
+                </ul>
+              </div>
+            </div>
+          </div> 
         </div>
       </div>
-      <div class="row">
-      <div >
-        <img src={about} className="about  col-lg-12 " alt="about"  />
-      </div>
-      <div class="col-lg-6 ">
-      <ul class="float-center mr-5">
-        <p className="section-subheading text-muted "  ><i>No more middle-men.</i></p>
-        <p className="section-subheading text-muted" ><i>Your privacy protected. We’ll never sell your personal information to third parties.</i></p>
-        <p className="section-subheading text-muted" ><i>Multi layer listing verification. Get the best prices on the best homes.</i></p>
-        <p className="section-subheading text-muted" ><i>Removes intermediaries which speed up the process.</i></p>
-      </ul>
-    </div>
-    </div>
-    </div>
   </section>
 
 
 
-<section>
-<div class="container space">
-<div class="row">
-  <div className="col-lg-12 text-center">
+
+<section className="page-section" id="services">
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-12 text-center">
           <h2 className="section-heading text-uppercase text-body">Services</h2>
-          <h3 className="section-subheading text-muted">A Better Home Search.</h3>
         </div>
-<div class="col-lg-4">
-    <FontAwesome
-                        className='super-crazy-colors three'
-                        name='shopping-cart'
-                        size='5x'
-
-                      />
-</div>
-<div class="col-lg-4">
-    <FontAwesome
-                        className='super-crazy-colors three'
-                        name='truck'
-                        size='5x'
-
-                      />
-</div>
-<div class="col-lg-4">
-    <FontAwesome
-                        className='super-crazy-colors three'
-                        name='key'
-                        size='5x'
-
-                      />
-</div>
-</div>
-
-</div>
-</section>
+      </div>
+      <div class="row margin ">
+        <div class="col-sm-4  ">
+            <div class="card">
+          
+            <img src={first} className=" mx-auto" alt="about" width="350" height="350"/>
+                <div class="card-block">
+                    <h1 class="card-title text-center text-muted as">Buy</h1>
+                    
+                  
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+            <img src={second} className="mx-auto" alt="about" width="350" height="350" />
+            <div class="card-block">
+                    <h1 class="card-title text-center text-muted as">Rent</h1>
+     
+        
+                </div> 
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+            <img src={third} className=" mx-auto" alt="about" width="350" height="350" />
+                <div class="card-block">
+                    <h1 class="card-title text-center text-muted as">Sell</h1>
+     
+        
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    </div>
+  </section>
 
   <section className="py-5">
     <div className="container">

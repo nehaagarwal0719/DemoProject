@@ -42,6 +42,9 @@ async loadBlockchainData(){
       
     return(
       <div id="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 spacer">
          <form onSubmit={(event) => {
                 event.preventDefault()
                 const checkid =this.props.cidd
@@ -55,33 +58,35 @@ async loadBlockchainData(){
                               id="bidderName"
                               type="text"
                               ref={(input) => { this.bidderName = input }}
-                              className="form-control"
+                              className="form-control mt-3"
                               placeholder="Name"
                               required />
                               <input
                               id="bidderDes"
                               type="text"
                               ref={(input) => { this.bidderMessage = input }}
-                              className="form-control"
+                              className="form-control mt-3"
                               placeholder="Description"
                               required />
                               <input
                               id="bidderPrice"
                               type="text"
                               ref={(input) => { this.bidderPrice = input }}
-                              className="form-control"
+                              className="form-control mt-3"
                               placeholder="Price"
                               required />
                   </div>          
-                  <button type="submit" className="btn btn-primary">Bid</button>
+                  <button type="submit" className="button btn-lg btn-block">Bid</button>
           </form>
-          <p>&nbsp;</p>
+          </div>
+
+
+          <div class="col-lg-3 mt-5">
           <h2>Bid List</h2>
           <table className="table">
                 <thead>
                   <tr>    
                   <th scope="col">#</th>
-                  <th scope="col">CheckId</th>
                    <th scope="col">Name</th>
                    <th scope="col">Message</th>
                    <th scope="col">Price</th>
@@ -97,7 +102,6 @@ async loadBlockchainData(){
                     return(
                       <tr key={key1}>
                        <td scope="row">{bid.bid_id.toString()}</td>
-                        <td>{bid.checkid.toString()}</td>
                         <td>{bid.name}</td>
                         <td>{bid.message}</td>
                         <td>{window.web3.utils.fromWei(bid.price.toString(),'Ether')}</td>
@@ -120,7 +124,10 @@ async loadBlockchainData(){
                   }
                    })}
                </tbody>
-          </table>        
+          </table>  
+          </div>
+          </div>      
+         </div>
          </div>
     
     );
